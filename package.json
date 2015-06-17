@@ -1,0 +1,37 @@
+{
+  "name": "hire-forms-list-filter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "scripts/watch.sh",
+    "bump": "hi-bump"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hire-Forms/hire-forms-list-filter.git"
+  },
+  "author": "gijsjan.brouwer@huygens.knaw.nl (https://github.com/Gijsjan)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hire-Forms/hire-forms-list-filter/issues"
+  },
+  "homepage": "https://github.com/Hire-Forms/hire-forms-list-filter",
+  "peerDependencies": {
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel-core": "^5.5.8",
+    "babel-eslint": "^3.1.15",
+    "babel-plugin-object-assign": "^1.1.0",
+    "babelify": "^6.1.2",
+    "eslint": "^0.23.0",
+    "eslint-plugin-react": "^2.5.2",
+    "hi-bump": "^1.1.1",
+    "watchify": "^3.2.2"
+  },
+  "dependencies": {
+    "hire-forms-input": "^1.0.1",
+    "hire-forms-options": "^1.0.1"
+  }
+}

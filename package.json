@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "hire-forms-input": "^1.0.1",
-    "hire-forms-options": "^1.0.1"
+    "hire-forms-options": "^1.0.1",
+    "hire-forms-utils": "^1.1.0"
   }
 }

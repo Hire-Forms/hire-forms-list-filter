@@ -5,11 +5,10 @@ import React from "react";
 import Input from "hire-forms-input";
 import Options from "hire-forms-options";
 
-import {arrayOfStringOrArrayOfKeyValue} from "hire-forms-prop-types";
+import {stringOrKeyValueMap, arrayOfStringsOrArrayOfKeyValueMaps} from "hire-forms-prop-types";
+import {castKeyValueArray, isKeyValueMap} from "hire-forms-utils";
 
-let divStyle = {
-	position: "relative"
-};
+let divStyle = {position: "relative"};
 
 class ListFilter extends React.Component {
 	componentWillReceiveProps(nextProps) {
@@ -39,7 +38,7 @@ class ListFilter extends React.Component {
 
 	filter(inputValue) {
 		let options = this.props.options.filter((value) => {
-			if (value.hasOwnProperty("value")) {
+			if (isKeyValueMap(value)) {
 				value = value.value;
 			}
 
@@ -75,6 +74,12 @@ class ListFilter extends React.Component {
 	}
 
 	handleOptionsChange(value) {
+		let opts = this.props.options;
+
+		if (typeof opts[0] === "string") {
+			value = value.value;
+		}
+
 		this.props.onChange(value);
 	}
 
@@ -95,7 +100,7 @@ class ListFilter extends React.Component {
 					query={this.state.query}
 					ref="options"
 					value={this.props.value}
-					values={this.state.options} />
+					values={castKeyValueArray(this.state.options)} />
 			</div>
 		);
 	}
@@ -105,9 +110,9 @@ ListFilter.propTypes = {
 	children: React.PropTypes.element,
 	minLength: React.PropTypes.number,
 	onChange: React.PropTypes.func,
-	options: arrayOfStringOrArrayOfKeyValue,
+	options: arrayOfStringsOrArrayOfKeyValueMaps,
 	placeholder: React.PropTypes.string,
-	value: React.PropTypes.string
+	value: stringOrKeyValueMap
 };
 
 export default ListFilter;

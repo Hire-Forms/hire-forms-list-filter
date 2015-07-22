@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.HireFormsTextarea = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.HireFormsTextarea = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 /*!
   Copyright (c) 2015 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -49,7 +49,7 @@
 
 }());
 
-},{}],2:[function(require,module,exports){
+},{}],2:[function(_dereq_,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58,11 +58,11 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _react = require("react");
+var _react = _dereq_("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require("classnames");
+var _classnames = _dereq_("classnames");
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -162,7 +162,120 @@ var Input = _react2["default"].createClass({
 exports["default"] = Input;
 module.exports = exports["default"];
 
-},{"classnames":1,"react":"react"}],3:[function(require,module,exports){
+},{"classnames":1,"react":"react"}],3:[function(_dereq_,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = _dereq_("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var stringOrArray = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, _react2["default"].PropTypes.array]);
+
+exports.stringOrArray = stringOrArray;
+var keyValueMap = _react2["default"].PropTypes.shape({
+	key: _react2["default"].PropTypes.string.isRequired,
+	value: _react2["default"].PropTypes.string.isRequired
+});
+
+exports.keyValueMap = keyValueMap;
+var arrayOfKeyValueMaps = _react2["default"].PropTypes.arrayOf(keyValueMap);
+
+exports.arrayOfKeyValueMaps = arrayOfKeyValueMaps;
+var arrayOfStrings = _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.string);
+
+exports.arrayOfStrings = arrayOfStrings;
+var arrayOfElements = _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.element);
+
+exports.arrayOfElements = arrayOfElements;
+var stringOrKeyValueMap = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, keyValueMap]);
+
+exports.stringOrKeyValueMap = stringOrKeyValueMap;
+var elementOrArrayOfElement = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.element, arrayOfElements]);
+
+exports.elementOrArrayOfElement = elementOrArrayOfElement;
+var arrayOfStringsOrArrayOfKeyValueMaps = _react2["default"].PropTypes.oneOfType([arrayOfStrings, arrayOfKeyValueMaps]);
+
+exports.arrayOfStringsOrArrayOfKeyValueMaps = arrayOfStringsOrArrayOfKeyValueMaps;
+var stringOrArrayOfStrings = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, arrayOfStrings]);
+exports.stringOrArrayOfStrings = stringOrArrayOfStrings;
+
+},{"react":"react"}],4:[function(_dereq_,module,exports){
+
+/*
+ * @param {Array} list
+ * @returns {Boolean}
+ */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.isListOfStrings = isListOfStrings;
+exports.isKeyValueMap = isKeyValueMap;
+exports.castArray = castArray;
+exports.castKeyValueArray = castKeyValueArray;
+
+function isListOfStrings(list) {
+	if (!Array.isArray(list) || !list.length) {
+		return false;
+	}
+
+	return list.every(function (item) {
+		return typeof item === "string";
+	});
+}
+
+/*
+ * @param {Object} map
+ * @returns {Boolean}
+ */
+
+function isKeyValueMap(map) {
+	if (map == null) {
+		return false;
+	}
+
+	return map.hasOwnProperty("key") && map.hasOwnProperty("value");
+}
+
+/*
+ * Always return an array.
+ *
+ * @param {String|Array} arr
+ * @returns {Array}
+ */
+
+function castArray(arr) {
+	return Array.isArray(arr) ? arr : [arr];
+}
+
+;
+
+/*
+ * Always return an array of key/value maps.
+ *
+ * @param {Number|String|Boolean|Array} list
+ * @returns {Array} Array of key value maps, ie: [{key: "A", value: "A"}, {key: "B", value: "B"}, ...]
+ */
+
+function castKeyValueArray(list) {
+	list = castArray(list);
+
+	return list.map(function (item) {
+		return isKeyValueMap(item) ? item : {
+			key: item,
+			value: item
+		};
+	});
+}
+
+},{}],5:[function(_dereq_,module,exports){
 // TODO use visible state instead of options list
 
 "use strict";
@@ -181,23 +294,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _react = require("react");
+var _react = _dereq_("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _hireFormsInput = require("hire-forms-input");
+var _hireFormsInput = _dereq_("hire-forms-input");
 
 var _hireFormsInput2 = _interopRequireDefault(_hireFormsInput);
 
-var _hireFormsOptions = require("hire-forms-options");
+var _hireFormsOptions = _dereq_("hire-forms-options");
 
 var _hireFormsOptions2 = _interopRequireDefault(_hireFormsOptions);
 
-var _hireFormsPropTypes = require("hire-forms-prop-types");
+var _hireFormsPropTypes = _dereq_("hire-forms-prop-types");
 
-var divStyle = {
-	position: "relative"
-};
+var _hireFormsUtils = _dereq_("hire-forms-utils");
+
+var divStyle = { position: "relative" };
 
 var ListFilter = (function (_React$Component) {
 	function ListFilter(props) {
@@ -235,7 +348,7 @@ var ListFilter = (function (_React$Component) {
 		key: "filter",
 		value: function filter(inputValue) {
 			var options = this.props.options.filter(function (value) {
-				if (value.hasOwnProperty("value")) {
+				if ((0, _hireFormsUtils.isKeyValueMap)(value)) {
 					value = value.value;
 				}
 
@@ -273,6 +386,12 @@ var ListFilter = (function (_React$Component) {
 	}, {
 		key: "handleOptionsChange",
 		value: function handleOptionsChange(value) {
+			var opts = this.props.options;
+
+			if (typeof opts[0] === "string") {
+				value = value.value;
+			}
+
 			this.props.onChange(value);
 		}
 	}, {
@@ -295,7 +414,7 @@ var ListFilter = (function (_React$Component) {
 					query: this.state.query,
 					ref: "options",
 					value: this.props.value,
-					values: this.state.options })
+					values: (0, _hireFormsUtils.castKeyValueArray)(this.state.options) })
 			);
 		}
 	}]);
@@ -307,17 +426,17 @@ ListFilter.propTypes = {
 	children: _react2["default"].PropTypes.element,
 	minLength: _react2["default"].PropTypes.number,
 	onChange: _react2["default"].PropTypes.func,
-	options: _hireFormsPropTypes.arrayOfStringOrArrayOfKeyValue,
+	options: _hireFormsPropTypes.arrayOfStringsOrArrayOfKeyValueMaps,
 	placeholder: _react2["default"].PropTypes.string,
-	value: _react2["default"].PropTypes.string
+	value: _hireFormsPropTypes.stringOrKeyValueMap
 };
 
 exports["default"] = ListFilter;
 module.exports = exports["default"];
 
-},{"hire-forms-input":2,"hire-forms-options":4,"hire-forms-prop-types":7,"react":"react"}],4:[function(require,module,exports){
+},{"hire-forms-input":2,"hire-forms-options":6,"hire-forms-prop-types":3,"hire-forms-utils":4,"react":"react"}],6:[function(_dereq_,module,exports){
 (function (global){
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.HireFormsOptions = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.HireFormsOptions = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -326,7 +445,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _react = require("react");
+var _react = _dereq_("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -365,7 +484,7 @@ var arrayOfStringOrArrayOfKeyValue = _react2["default"].PropTypes.oneOfType([_re
 }))]);
 exports.arrayOfStringOrArrayOfKeyValue = arrayOfStringOrArrayOfKeyValue;
 
-},{"react":"react"}],2:[function(require,module,exports){
+},{"react":"react"}],2:[function(_dereq_,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -380,15 +499,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _react = require("react");
+var _react = _dereq_("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require("classnames");
+var _classnames = _dereq_("classnames");
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _hireFormsPropTypes = require("hire-forms-prop-types");
+var _hireFormsPropTypes = _dereq_("hire-forms-prop-types");
 
 var HIGHTLIGHT_CLASS = "highlight";
 
@@ -630,57 +749,9 @@ module.exports = exports["default"];
 },{"classnames":"classnames","hire-forms-prop-types":1,"react":"react"}]},{},[2])(2)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"classnames":5,"hire-forms-prop-types":6,"react":"react"}],5:[function(require,module,exports){
+},{"classnames":7,"hire-forms-prop-types":8,"react":"react"}],7:[function(_dereq_,module,exports){
 arguments[4][1][0].apply(exports,arguments)
-},{"dup":1}],6:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var elementOrArrayOfElement = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.element, _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.element)]);
-
-exports.elementOrArrayOfElement = elementOrArrayOfElement;
-/**
- * A string or an object,
- * example: {key: "somekey", value: "somevalue"}.
- */
-var stringOrKeyValue = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, _react2["default"].PropTypes.shape({
-	key: _react2["default"].PropTypes.string,
-	value: _react2["default"].PropTypes.string
-})]);
-
-exports.stringOrKeyValue = stringOrKeyValue;
-var stringOrArray = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, _react2["default"].PropTypes.array]);
-
-exports.stringOrArray = stringOrArray;
-var stringOrArrayOfString = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.string)]);
-
-exports.stringOrArrayOfString = stringOrArrayOfString;
-var arrayOfKeyValue = _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.shape({
-	key: _react2["default"].PropTypes.string.isRequired,
-	value: _react2["default"].PropTypes.string.isRequired
-}));
-
-exports.arrayOfKeyValue = arrayOfKeyValue;
-/**
- * An array of strings or an array of key/value objects,
- * example: [{key: "somekey", value: "somevalue"}].
- */
-var arrayOfStringOrArrayOfKeyValue = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.string), _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.shape({
-	key: _react2["default"].PropTypes.string,
-	value: _react2["default"].PropTypes.string
-}))]);
-exports.arrayOfStringOrArrayOfKeyValue = arrayOfStringOrArrayOfKeyValue;
-
-},{"react":"react"}],7:[function(require,module,exports){
-arguments[4][6][0].apply(exports,arguments)
-},{"dup":6,"react":"react"}]},{},[3])(3)
+},{"dup":1}],8:[function(_dereq_,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3,"react":"react"}]},{},[5])(5)
 });

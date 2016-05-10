@@ -1,53 +1,51 @@
 // TODO use visible state instead of options list
 
-import React from "react";
+import React from 'react';
+import Input from 'hire-forms-input';
+import Options from 'hire-forms-options';
+import { stringOrKeyValueMap, arrayOfStringsOrArrayOfKeyValueMaps } from 'hire-forms-prop-types';
+import { castKeyValueArray, isKeyValueMap } from 'hire-forms-utils';
 
-import Input from "hire-forms-input";
-import Options from "hire-forms-options";
-
-import {stringOrKeyValueMap, arrayOfStringsOrArrayOfKeyValueMaps} from "hire-forms-prop-types";
-import {castKeyValueArray, isKeyValueMap} from "hire-forms-utils";
-
-let divStyle = {position: "relative"};
+let divStyle = { position: 'relative' };
 
 class ListFilter extends React.Component {
-	componentWillReceiveProps(nextProps) {
-		this.setState({options: nextProps.options});
-	}
-
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			options: this.props.options,
-			query: ""
+			query: '',
 		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({ options: nextProps.options });
 	}
 
 	handleInputChange(inputValue) {
 		// Return empty options if inputValue length is beneath a treshold.
 		if (inputValue.length < this.props.minLength) {
 			return this.setState({
-				inputValue: inputValue,
-				options: []
+				inputValue,
+				options: [],
 			});
 		}
 
-		this.filter(inputValue);
+		return this.filter(inputValue);
 	}
 
 	filter(inputValue) {
-		let options = this.props.options.filter((value) => {
-			if (isKeyValueMap(value)) {
-				value = value.value;
-			}
+		const options = this.props.options.filter((value) => {
+			const val = isKeyValueMap(value) ?
+				value.value :
+				value;
 
-			return (value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
+			return (val.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
 		});
 
 		this.setState({
 			query: inputValue,
-			options: options
+			options,
 		});
 	}
 
@@ -74,9 +72,9 @@ class ListFilter extends React.Component {
 	}
 
 	handleOptionsChange(value) {
-		let opts = this.props.options;
+		const opts = this.props.options;
 
-		if (typeof opts[0] === "string") {
+		if (typeof opts[0] === 'string') {
 			value = value.value;
 		}
 
@@ -87,20 +85,23 @@ class ListFilter extends React.Component {
 		return (
 			<div
 				className="hire-list-filter"
-				style={divStyle}>
+				style={divStyle}
+			>
 				<Input
 					onChange={this.handleInputChange.bind(this)}
 					onKeyDown={this.handleInputKeyDown.bind(this)}
 					placeholder={this.props.placeholder}
 					ref="input"
-					value={this.state.query} />
+					value={this.state.query}
+				/>
 				{this.props.children}
 				<Options
 					onChange={this.handleOptionsChange.bind(this)}
 					query={this.state.query}
 					ref="options"
 					value={this.props.value}
-					values={castKeyValueArray(this.state.options)} />
+					values={castKeyValueArray(this.state.options)}
+				/>
 			</div>
 		);
 	}
@@ -112,7 +113,7 @@ ListFilter.propTypes = {
 	onChange: React.PropTypes.func,
 	options: arrayOfStringsOrArrayOfKeyValueMaps,
 	placeholder: React.PropTypes.string,
-	value: stringOrKeyValueMap
+	value: stringOrKeyValueMap,
 };
 
 export default ListFilter;
